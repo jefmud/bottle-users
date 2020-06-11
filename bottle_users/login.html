@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.simpleLogin form fieldset input {
+  width: 90%;
+  margin: 10px 0;
+  padding: 10px 5%;
+  border: thin #8fc400 solid;
+}
+.simpleLogin input[type="submit"] {
+  width: 100px;
+  float: right;
+  background: #8fc400;
+  color: white;
+  transition: .2s;
+  border: 0;
+  cursor:pointer;
+}
+.simpleLogin input[type="submit"]:focus,
+.simpleLogin input[type="submit"]:hover, 
+.simpleLogin input[type="submit"]:active {
+  padding: 10px 5%;
+  background:#B3E226;
+  outline: none;
+}
+</style>
+</head>
+<body>
+<div class="simpleLogin">
+  <form>
+    <legend>Let's Login</legend>
+    <fieldset>
+      <input id="name" placeholder="Username" type="text">
+      <input id="pass" placeholder="Password" type="password">
+      <input id="submit" type="submit" value="Log in">
+    </fieldset>
+  </form>
+</div>
+</body>
+</html>
