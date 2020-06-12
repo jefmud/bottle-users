@@ -68,15 +68,20 @@ class TinyMongoClient(tm.TinyMongoClient):
 _db = None
 
 def initialize(datadir=None):
-    """initializes the database
-    param {datadir} - the directory where the JSON will be stored.
-    by default, it is stored in a module level data folder.  Your project may want to 
-    specify this.
+    """initialize(datadir=None) ==> initializes the database
+    : param {datadir} : (optional) the directory where the JSON will be stored.
+
+    Note: by default, it is stored in the app level data folder.
+    Your project may want to explicitly specify something that fits
+    with your project's data specifications.
     """
     global _db
     if datadir is None:
-        moduledir = os.path.dirname(__file__)
-        datadir = os.path.join(moduledir, 'data')
+        # use module level data directory
+        # moduledir = os.path.dirname(__file__)
+        # datadir = os.path.join(moduledir, 'data')
+        # CHANGED - use project relative data dir
+        data_dir = './data'
     _db = TinyMongoClient(datadir).userdata
 
 
@@ -104,7 +109,7 @@ def get_user(username=None, uid=None):
 
 def create_user(username, password, **kwargs):
     """
-    create_user(username, password, **kwargs) ==> create a user -- 
+    create_user(username, password, **kwargs) ==> create a user --
     : param {username} and param {password} : REQUIRED
     : param **kwargs : python style (keyword arguments, optional)
     : return : Boolean True if user successfully created, False if exisiting username
@@ -148,7 +153,7 @@ def update_user(username, **kwargs):
         #_db.users.update_one(idx, user)
         return True
     return False
-    
+
 def delete_user(username=None, uid=None):
     """delete_user(username, uid) deletes a user record by username or uid
     : param {username} : string username on None
@@ -176,4 +181,3 @@ def authenticate(username, password):
         if check_encrypted_password(password, user['password']):
             return True
     return False
-
