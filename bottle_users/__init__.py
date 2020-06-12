@@ -81,12 +81,17 @@ def initialize(datadir=None):
 
 
 def get_users():
+    """get_users() - return a list of all users JSON records"""
     if _db is None:
         raise ValueError("Database not initialized!")
     return list(_db.users.find())
 
 def get_user(username=None, uid=None):
-    """find a user record by uid or username"""
+    """get_user(username, uid) ==> find a user record by uid or username
+    : param {username} : - a specific username (string)
+    : param {uid} : - a specific user id (string) - note, this is actual '_id' in databse
+    : return : a user record or None if not found
+    """
     if _db is None:
         raise ValueError("Database not initialized!")
     # first try the username--
@@ -98,9 +103,11 @@ def get_user(username=None, uid=None):
     return user
 
 def create_user(username, password, **kwargs):
-    """create a user -- 
-    param {username} and param {password} required
-    param kwargs (keyword arguments, optional)
+    """
+    create_user(username, password, **kwargs) ==> create a user -- 
+    : param {username} and param {password} : REQUIRED
+    : param **kwargs : python style (keyword arguments, optional)
+    : return : Boolean True if user successfully created, False if exisiting username
     example
     create_user('joe','secret',display_name='Joe Smith',is_editor=True)
     """
@@ -117,7 +124,12 @@ def create_user(username, password, **kwargs):
     return True
 
 def update_user(username, **kwargs):
-    """update a user with keyword arguments
+    """
+    update_user(username, **kwargs) - update a user record with keyword arguments
+    : param {username} : an existing username in the database
+    : param **kwargs : Python style keyword arguments.
+    : return : True if existing username modified, False if no username exists.
+    update a user with keyword arguments
     return True for success, False if fails
     if a keyword argument is EXPLICITLY set to None,
     the argument will be deleted from the record.
@@ -138,8 +150,10 @@ def update_user(username, **kwargs):
     return False
     
 def delete_user(username=None, uid=None):
-    """delete a user by username or uid
-    returns user record upon success, None if fails
+    """delete_user(username, uid) deletes a user record by username or uid
+    : param {username} : string username on None
+    : param {uid} : string database id or None
+    : return : returns user record upon success, None if fails
     """
     user = None
     if username:
@@ -151,7 +165,12 @@ def delete_user(username=None, uid=None):
     return user
 
 def authenticate(username, password):
-    """authenticate username, password against datastore"""
+    """
+    authenticate(username, password) ==> authenticate username, password against datastore
+    : param {username} : string username
+    : param {password} : string password in plain-text
+    : return : Boolean True if match, False if no match
+    """
     user = get_user(username)
     if user:
         if check_encrypted_password(password, user['password']):

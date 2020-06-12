@@ -2,7 +2,7 @@
 # This is still experimental, so caveat emptor
 # written by Jeff
 # Heavy debt to the fine work of the Python Project, TinyMongo, TinyDB, and
-# Marcel Helkamp's Bottle microframework.
+# Marcel Hellkamp's Bottle microframework.
 #
 import time
 import tinymongo as tm
@@ -99,22 +99,31 @@ class Session:
         if sid:
             sess_key = {'_id':sid}
             data = self.db.sessions.find_one(sess_key)
-            if data is None:
-                # no session found, throw a 400 (Bad Request Error)
-                abort(400)
-            data = dict(data)
-        else:
+            if data:
+                # existing session record, convert to dictionary
+                data = dict(data)
+            else:
+                # could not find session record, change the sid to None
+                # (this should not happen in normal circustances, but need to anticipate)
+                # at this point it looks like a fresh new session
+                sid = None
+
+        if sid is None:
+            # prepare a new record with a timestamp
             data = {'_timestamp_':int(time.time())}
             
         for key, value in kwargs.items():
+            # add the kwargs to the data, note-- we will allow
+            # programmer to possibly affect important values without raising an error
+            # which is a programmer choice ;-)
             data[key] = value
             
         # write the data
         if sid:
-            # update existing record
+            # update existing record in the database
             self.db.sessions.update_one(sess_key, {'$set': data})
         else:
-            # this is a new record
+            # this is a new record, so need to set the cookie
             sid = self.db.sessions.insert_one(data).inserted_id
             response.set_cookie(name=self.cookie_name, value=sid,
                                 secret=self.secret,
@@ -190,7 +199,24 @@ class Session:
     
     @property
     def sessions(self):
+        """
+        sessions(self) - :returns: LIST of session database records
+        Note: this would not normally be used, but it is here for testing convenience
+        """
         return list(self.db.sessions.find())
+
+    def session_purge_id(self, sid):
+        """
+        session_purge_id(self, id) ==> allows a programmer to purge a particular sid
+        : return : the deleted session record or None (if not present)
+        I would not expect this to be needed in normal operations, but it could be used
+        for testing scenarios where the session database records might have been deleted.
+        """
+        session_key = {'_id', sid}
+        session = self.db.sessions.find_one(session_key)
+        if session:
+            self.db.sessions.remove(session)
+        return session
     
     def age(self):
         """
@@ -200,6 +226,6 @@ class Session:
     
     def expired(self):
         """
-        expired() ==> return a boolean if session is expired
+        expired() ==> return a boolean True if expired session, else False
         """
         return self.age() > self.max_age    
