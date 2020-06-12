@@ -67,22 +67,22 @@ class TinyMongoClient(tm.TinyMongoClient):
 
 _db = None
 
-def initialize(datadir=None):
-    """initialize(datadir=None) ==> initializes the database
-    : param {datadir} : (optional) the directory where the JSON will be stored.
+def initialize(data_dir=None):
+    """initialize(data_dir=None) ==> initializes the database
+    : param {data_dir} : (optional) the directory where the JSON will be stored.
 
     Note: by default, it is stored in the app level data folder.
     Your project may want to explicitly specify something that fits
     with your project's data specifications.
     """
     global _db
-    if datadir is None:
+    if data_dir is None:
         # use module level data directory
         # moduledir = os.path.dirname(__file__)
         # datadir = os.path.join(moduledir, 'data')
         # CHANGED - use project relative data dir
         data_dir = './data'
-    _db = TinyMongoClient(datadir).userdata
+    _db = TinyMongoClient(data_dir).userdata
 
 
 def get_users():
