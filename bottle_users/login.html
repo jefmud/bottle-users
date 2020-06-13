@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-.simpleLogin form fieldset input {
-  width: 90%;
-  margin: 10px 0;
-  padding: 10px 5%;
-  border: thin #8fc400 solid;
-}
-.simpleLogin input[type="submit"] {
-  width: 100px;
-  float: right;
-  background: #8fc400;
-  color: white;
-  transition: .2s;
-  border: 0;
-  cursor:pointer;
-}
-.simpleLogin input[type="submit"]:focus,
-.simpleLogin input[type="submit"]:hover, 
-.simpleLogin input[type="submit"]:active {
-  padding: 10px 5%;
-  background:#B3E226;
-  outline: none;
-}
-</style>
-</head>
-<body>
-<div class="simpleLogin">
-  <form>
-    <legend>Login</legend>
-    <fieldset>
-      <input id="name" name="username" placeholder="Username" type="text">
-      <input id="pass" name="password" placeholder="Password" type="password">
-      <input id="submit" type="submit" value="Log in">
-    </fieldset>
-  </form>
-</div>
-</body>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Login Page</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css">
+   </head>
+   <body>
+      <section class="section">
+       <form action="" method="POST">
+       <div class="columns">
+       <div class="column is-4 is-offset-4">
+          <h1 class="title">Login</h1> 
+		  <div class="field">
+		  <p class="control has-icons-left has-icons-right">
+		    <input class="input" type="text" name="username" placeholder="Username">
+		    <span class="icon is-small is-left">
+		      <i class="fa fa-user"></i>
+		    </span>
+		    <span class="icon is-small is-right">
+		      <i class="fa fa-check"></i>
+		    </span>
+		  </p>
+		</div>
+		<div class="field">
+		  <p class="control has-icons-left">
+		    <input class="input" type="password" name="password" placeholder="Password">
+		    <span class="icon is-small is-left">
+		      <i class="fa fa-lock"></i>
+		    </span>
+		  </p>
+		</div>
+		<div class="field">
+		  <p class="control">
+		    <button class="button is-success">
+		      Login
+		    </button>
+		  </p>
+		</div>
+      </div>         
+       </div>
+       </form>
+      </section>
+   </body>
 </html>
