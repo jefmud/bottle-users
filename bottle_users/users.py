@@ -186,7 +186,7 @@ def authenticate(username, password):
             return True
     return False
 def login_page(login_filename=None):
-    """login_form(login_file=None) returns a login page as a string contained
+    """login_page(login_file=None) returns a login page as a string contained
     login_file if None, then if loads module level file login.html
     : param {login_filename} : string of filename of login page HTML document or None.
     If None, then the package level standard login.html is loaded.
@@ -228,7 +228,7 @@ class UserManager:
     """
     UserManager(secret, data_dir) -this class simply wraps the exposed user
     functions into an object along with a session object.  A programmer could
-    still another Session object if required.
+    still use another Session object if required.
     """
     def __init__(self, secret, data_dir=None, max_age=86400, login_filename=None):
         """
@@ -259,7 +259,7 @@ class UserManager:
                 cookie_name="_um",
                 max_age=max_age)
         self.session = _session
-        
+
     def create_user(self, username, password, **kwargs):
         return create_user(username, password, **kwargs)
 
@@ -320,5 +320,3 @@ class UserManager:
     @property
     def sessions(self):
         return self.session.sessions
-        
-
