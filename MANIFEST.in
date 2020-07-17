@@ -1,2 +1,2 @@
-include bottle_users/login.html
+include login.html
 include README.md
