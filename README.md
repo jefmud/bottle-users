@@ -29,7 +29,7 @@ $ pip install tinymongo
 $ pip install passlib
 ```
 
-Usage:
+Simple Usage:
 ```
 import bottle_users
 
@@ -59,5 +59,65 @@ else:
     print("You failed authentication")
 ```
 
+## Using Usermanager object
+
+A more advanced use case would involve instantiating the class UserManager.  This encapsulates
+the functions of a UserManager.  I am also using with a Session object in the package.  This allows
+the programmer to access the decorator @login_required for a function, which works in concert with the
+session object.
+
+```
+from bottle_users.session import Session
+from bottle_users.users import UserManager, login_required
+
+from bottle import Bottle, request, redirect
+import json
+
+app = Bottle()
+SECRET = 'IamASecretSecret'
+session = Session(SECRET)
+usermanager = UserManager(SECRET)
+
+@app.route('/', name="index")
+def index():
+    return "Index Route"
+
+@app.route('/login', method=('GET', 'POST'), name='login')
+def login():
+    form = usermanager.login_page
+    if request.method == 'POST':
+        username = request.forms.get('username')
+        password = request.forms.get('password')
+        if usermanager.authenticate(username, password):
+            usermanager.login_user(username)
+            return redirect(app.get_url('users'))
+    return form
+
+@app.route('/logout')
+def logout():
+    usermanager.logout_user()
+    return "you are now logged out"
+
+@app.route('/users', name='users')
+def users_view():
+    return json.dumps(usermanager.get_users())
+
+@app.route('/user')
+@app.route('/user/<username>')
+@login_required
+def user_view(username=None):
+    if username:
+        return json.dumps(usermanager.get_user(username))
+    return json.dumps(usermanager.get_user())
+
+@app.route('/sessions')
+def sessions_view():
+    return json.dumps(usermanager.sessions)
+
+if __name__ == '__main__':
+    usermanager.create_user('admin','admin')
+    usermanager.create_user('user1', 'user1me')
+    app.run(port=5000, server='paste')
+```
 
 
