@@ -20,9 +20,12 @@ The TinyMongo client provides simple JSON storage of a user database.
 
 https://github.com/schapman1974/tinymongo
 
-PIP installation (caveat emptor)
 
-$ python -m pip install https://github.com/jefmud/bottle_users
+PIP installation (use at your own risk!)
+```
+$ pip install https://github.com/jefmud/bottle_users
+```
+
 Usage:
 ```
 import bottle_users
