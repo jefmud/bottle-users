@@ -21,9 +21,12 @@ The TinyMongo client provides simple JSON storage of a user database.
 https://github.com/schapman1974/tinymongo
 
 
-PIP installation (use at your own risk!)
+PIP installation (use at your own risk!).  Note, you must also "pip install" the dependencies.
+
 ```
 $ pip install https://github.com/jefmud/bottle_users
+$ pip install tinymongo
+$ pip install passlib
 ```
 
 Usage:
