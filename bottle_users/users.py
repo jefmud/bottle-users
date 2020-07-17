@@ -35,7 +35,7 @@
 #
 import functools
 from passlib.context import CryptContext
-from session import Session
+from .session import Session
 
 pwd_context = CryptContext(
         schemes=["pbkdf2_sha256"],
