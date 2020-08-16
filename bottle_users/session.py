@@ -165,8 +165,11 @@ class Session:
         if data is None and strict:
             # no matching session data record found (Bad Request)
             abort(400)
-        self.db.sessions.remove(data)
-        response.delete_cookie(key=self.cookie_name, secret=self.secret)
+        if data:
+            self.db.sessions.remove(data)
+            response.delete_cookie(key=self.cookie_name, secret=self.secret)
+            return True
+        return False
         
     @property
     def data(self):
