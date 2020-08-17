@@ -319,4 +319,12 @@ class UserManager:
 
     @property
     def sessions(self):
+        """this shows ALL sessions currently remembered by the program"""
         return self.session.sessions
+
+    @property
+    def data(self):
+        """exposes the current user session data, use with caution as it may contain secrets"""
+        if self.session:
+            return self.session.data
+        return None
